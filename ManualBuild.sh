@@ -16,7 +16,7 @@ export LDFLAGS=-static
 
 COMMIT=$(git rev-parse --short HEAD)
 
-PKG_VERSION=$(git tag --sort=taggerdate | tail -n1)+g"$COMMIT"
+PKG_VERSION=$(git describe HEAD)
 #FIXME Cleanup
 for WRKDIR in "${WORKDIRS[@]}"
 do
