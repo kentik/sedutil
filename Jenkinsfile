@@ -1,4 +1,4 @@
-@Library('kentik-build-toolsd') _
+@Library('kentik-build-tools') _
 
 kbtJob {
 }
