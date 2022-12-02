@@ -18,8 +18,7 @@ COMMIT=$(git rev-parse --short HEAD)
 
 PKG_VERSION=$(git describe HEAD)
 #FIXME Cleanup
-for WRKDIR in "${WORKDIRS[@]}"
-do
+for WRKDIR in "${WORKDIRS[@]}"; do
 	make -j8 -C "$WRKDIR" CONF="${VERSION}" clean
 done
 
@@ -42,13 +41,11 @@ Homepage: https://github.com/kentik/sedutil
 Description: Forked and locally-modified DTA sedutil-cli package. Statically compiled, should be good for all modern distros. Built from commit $COMMIT.
 EOF
 
-for DIR in "${WORKDIRS[@]}"
-do
+for DIR in "${WORKDIRS[@]}"; do
   ( make -j8 -C "$DIR" CONF="${VERSION}" clean ; make -j8 -C "$DIR" CONF="${VERSION}" ) 2>&1 | tee logfile.txt
 done
 
-for DIR in "${WORKDIRS[@]}"
-do
+for DIR in "${WORKDIRS[@]}"; do
   cp "${DIR}/dist/${VERSION}/GNU-Linux/"* "${PKGDIR}/${EXEDIR}"
 done
 
@@ -65,8 +62,7 @@ pkg_ver_arch=$(dpkg-deb --info debian.deb  \
 		   | grep -E 'Package|Version|Architecture' \
 		   | tr -d ' ' \
 		   | tr ':' '=')
-for var in "${pkg_ver_arch[@]}"
-do
+for var in "${pkg_ver_arch[@]}"; do
   eval "$var"
 done
 
