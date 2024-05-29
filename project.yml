@@ -2,6 +2,7 @@ name: sedutil
 version: TAG
 target:
   build: bash ManualBuild.sh && mkdir artifacts && mv *.deb artifacts
+  earthly_lib_branch: ing-multi-debs
 docker:
   build:
     base: kt-build-generic-bullseye:master
