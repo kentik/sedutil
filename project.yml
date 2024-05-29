@@ -3,7 +3,7 @@ version: TAG
 target:
   build: bash ManualBuild.sh
 docker:
-  build: 
+  build:
     base: kt-build-generic-bullseye:master
   run:
     base: kt-run-generic-bullseye:master
