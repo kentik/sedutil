@@ -1,10 +1,9 @@
 name: sedutil
 version: TAG
 target:
-  build: earthly +build
-  build_provider: earthly
+  build: 
 docker:
-  build:
+  build: bash ManualBuild.sh
     base: kt-build-generic-bullseye:master
   run:
     base: kt-run-generic-bullseye:master
