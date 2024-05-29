@@ -1,9 +1,9 @@
 name: sedutil
 version: TAG
 target:
-  build: 
-docker:
   build: bash ManualBuild.sh
+docker:
+  build: 
     base: kt-build-generic-bullseye:master
   run:
     base: kt-run-generic-bullseye:master
