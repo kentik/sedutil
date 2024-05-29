@@ -1,7 +1,7 @@
 name: sedutil
 version: TAG
 target:
-  build: bash ManualBuild.sh && rm -rf output && mv debian output
+  build: bash ManualBuild.sh && mkdir artifacts && mv *.deb artifacts
 docker:
   build:
     base: kt-build-generic-bullseye:master
