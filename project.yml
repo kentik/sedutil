@@ -1,12 +1,17 @@
 name: sedutil
 version: TAG
 target:
-  build: earthly +build
-  build_provider: earthly
+  # we want to upload original deb created by ManualBuild.sh to artifactory so we are moving it to `artifacts` directory, and the rest will be done at kbt level
+  build: bash ManualBuild.sh && mkdir artifacts && mv *.deb artifacts
 docker:
   build:
     base: kt-build-generic-bullseye:master
   run:
     base: kt-run-generic-bullseye:master
-skip_debian: true
+create_debian: true
+package:
+  repository: debian-local-ops
+  server: ktcontinousdelivery7fbf-ops
+  kbt_root_dir: /usr/local/bin
+  distribution: all
 skip_docker: true
