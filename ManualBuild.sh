@@ -56,7 +56,13 @@ chmod 0644 "${PKGDIR}/${USR_SYSTEMD}/${OPAL_UNIT}"
 
 sudo find "${PKGDIR}" -execdir chown 0:0 '{}' +;
 
+echo "Dir content"
+ls -R "${PKGDIR}"
+
 dpkg-deb --build "${PKGDIR}"
+
+echo "Deb content"
+dpkg-deb --contents debian.deb
 
 pkg_ver_arch=$(dpkg-deb --info debian.deb  \
 		   | grep -E 'Package|Version|Architecture' \
