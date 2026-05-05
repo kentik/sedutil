@@ -3,7 +3,7 @@ description: Software to manage SED - self-encrypting drives.
 version: TAG
 target:
   # we want to upload original deb created by ManualBuild.sh to artifactory so we are moving it to `artifacts` directory, and the rest will be done at kbt level
-  build: bash ManualBuild.sh && mkdir artifacts && mv *.deb artifacts
+  build: bash ManualBuild.sh
 docker:
   build:
     base: kt-build-generic-bullseye:master
