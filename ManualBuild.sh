@@ -10,7 +10,7 @@ EXEDIR=/usr/sbin
 MAN_PAGE=sedutil-cli.8
 MAN_DIR=/usr/share/man/man8
 USR_SYSTEMD=/etc/systemd/system
-PKGDIR=debian
+PKGDIR=${WORKSPACE}/output/
 
 export LDFLAGS=-static
 
@@ -22,24 +22,12 @@ for WRKDIR in "${WORKDIRS[@]}"; do
 	make -j8 -C "$WRKDIR" CONF="${VERSION}" clean
 done
 
-rm -rf "*.deb"
 sudo rm -rf "${PKGDIR}"
 
-mkdir "${PKGDIR}"
+mkdir -p "${PKGDIR}"
 mkdir -p "${PKGDIR}/${EXEDIR}"
 mkdir -p "${PKGDIR}/${USR_SYSTEMD}"
 mkdir -p "${PKGDIR}/${MAN_DIR}"
-
-cp -rp DEBIAN "${PKGDIR}"
-cat > "$PKGDIR/DEBIAN/control" <<EOF
-Package: sedutil
-Section: utils
-Version: $PKG_VERSION
-Architecture: amd64
-Maintainer: ops-team@kentik.com
-Homepage: https://github.com/kentik/sedutil
-Description: Forked and locally-modified DTA sedutil-cli package. Statically compiled, should be good for all modern distros. Built from commit $COMMIT.
-EOF
 
 for DIR in "${WORKDIRS[@]}"; do
   ( make -j8 -C "$DIR" CONF="${VERSION}" clean ; make -j8 -C "$DIR" CONF="${VERSION}" ) 2>&1 | tee logfile.txt
@@ -58,18 +46,3 @@ sudo find "${PKGDIR}" -execdir chown 0:0 '{}' +;
 
 echo "Dir content"
 ls -R "${PKGDIR}"
-
-dpkg-deb --build "${PKGDIR}"
-
-echo "Deb content"
-dpkg-deb --contents debian.deb
-
-pkg_ver_arch=$(dpkg-deb --info debian.deb  \
-		   | grep -E 'Package|Version|Architecture' \
-		   | tr -d ' ' \
-		   | tr ':' '=')
-for var in "${pkg_ver_arch[@]}"; do
-  eval "$var"
-done
-
-mv debian.deb "${Package}_${Version}_${Architecture}.deb"
